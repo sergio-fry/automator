@@ -4,9 +4,12 @@ GEM
     ast (2.4.2)
     diff-lcs (1.4.4)
     docile (1.4.0)
+    nokogiri (1.11.7-x86_64-darwin)
+      racc (~> 1.4)
     parallel (1.20.1)
     parser (3.0.2.0)
       ast (~> 2.4.1)
+    racc (1.5.2)
     rainbow (3.0.0)
     regexp_parser (2.1.1)
     rexml (3.2.5)
@@ -53,6 +56,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
+  nokogiri
   rspec
   simplecov
   standard

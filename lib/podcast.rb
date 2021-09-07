@@ -1,5 +1,6 @@
 require "nokogiri"
 require "stripped_text"
+require "episode"
 
 class Podcast
   def initialize(page)
@@ -13,6 +14,8 @@ class Podcast
   end
 
   def episodes
-    [1, 2, 3, 4, 5]
+    Nokogiri::HTML(@page).css(".podcasts__item-anonce").map do |el|
+      Episode.new(el.to_xml)
+    end
   end
 end

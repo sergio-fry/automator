@@ -11,5 +11,15 @@ RSpec.describe Podcast do
 
   it "has episodes" do
     expect(podcast.episodes.size).to eq 5
+
+    expect(podcast.episodes.map(&:title)).to eq(
+      [
+        "Сказки Киплинга",
+        "Сказки Френсис Бёрнет",
+        "Домовёнок Кузя",
+        "Золушка (новая версия)",
+        "Гуси-Лебеди (новая версия)"
+      ]
+    )
   end
 end

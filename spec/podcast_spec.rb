@@ -8,6 +8,8 @@ RSpec.describe Podcast do
   it "has title" do
     expect(podcast.title).to eq "ХРУМ, или Сказочный детектив"
   end
+
   it "has episodes" do
+    expect(podcast.episodes.size).to eq 5
   end
 end

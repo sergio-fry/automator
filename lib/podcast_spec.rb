@@ -1,8 +1,10 @@
-require "support/fixture"
+require "fake/internet"
 require "podcast"
 
 RSpec.describe Podcast do
-  let(:podcast) { described_class.new(page) }
+  let(:podcast) { described_class.new(id, Fake::Internet.new) }
+  let(:id) { "114343" }
+
   let(:page) { Support::Fixture.new("podcast/podcast.html").content }
 
   it "has title" do

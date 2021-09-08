@@ -2,10 +2,8 @@ require "fake/internet"
 require "podcast"
 
 RSpec.describe Podcast do
-  let(:podcast) { described_class.new(id, Fake::Internet.new) }
-  let(:id) { "114343" }
-
-  let(:page) { Support::Fixture.new("podcast/podcast.html").content }
+  let(:podcast) { described_class.new(address, Fake::Internet.new) }
+  let(:address) { "https://www.deti.fm/program_child/uid/114343" }
 
   it "has title" do
     expect(podcast.title).to eq "ХРУМ, или Сказочный детектив"

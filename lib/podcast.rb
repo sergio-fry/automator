@@ -1,10 +1,11 @@
 require "nokogiri"
 require "stripped_text"
 require "episode"
+require "joined_uri"
 
 class Podcast
-  def initialize(id, internet)
-    @id = id
+  def initialize(address, internet)
+    @address = address
     @internet = internet
   end
 
@@ -16,11 +17,17 @@ class Podcast
 
   def episodes
     Nokogiri::HTML(page).css(".podcasts__item-anonce").map do |el|
-      Episode.new(el.to_xml)
+      Episode.new(
+        JoinedURI.new(
+          "https://www.deti.fm/",
+          el.css("a")[0].attr("href")
+        ).to_s,
+        @internet
+      )
     end
   end
 
   def page
-    @internet.read("https://www.deti.fm/program_child/uid/#{@id}")
+    @internet.read @address
   end
 end

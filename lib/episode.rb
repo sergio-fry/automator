@@ -1,13 +1,18 @@
 require "stripped_text"
 
 class Episode
-  def initialize(content)
-    @content = content
+  def initialize(address, internet)
+    @address = address
+    @internet = internet
   end
 
   def title
     StrippedText.new(
-      Nokogiri::HTML(@content).css(".podcasts__item-name")[0].content
+      Nokogiri::HTML(page).css("h1")[0].content
     ).to_s
+  end
+
+  def page
+    @internet.read @address
   end
 end

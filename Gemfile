@@ -8,6 +8,7 @@ gem "nokogiri"
 
 group :development do
   gem "standard"
+  gem "rake"
 end
 
 group :test do

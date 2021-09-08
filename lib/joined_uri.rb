@@ -1,3 +1,5 @@
+require "uri"
+
 class JoinedURI
   def initialize(*parts)
     @parts = parts

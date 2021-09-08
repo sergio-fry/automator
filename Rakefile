@@ -1,4 +1,4 @@
 desc "Test"
 task :default do
-  sh "rspec --pattern lib/**/*_spec.rb"
+  exec "rspec --pattern **/*_spec.rb --pattern lib/**/*_spec.rb"
 end

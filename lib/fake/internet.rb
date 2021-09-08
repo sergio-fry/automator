@@ -18,7 +18,6 @@ module Fake
       when "https://www.deti.fm/podcast__player/album/114343/uid/777933"
         fixture("hrum/episodes/gusi.html")
       else
-        puts address
         ""
       end
     end

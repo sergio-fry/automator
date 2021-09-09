@@ -35,7 +35,7 @@ class Podcast
   end
 
   def page
-    @internet.read(@address).body
+    @page ||= @internet.read(@address).body
   end
 
   def language

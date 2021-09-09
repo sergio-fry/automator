@@ -100,4 +100,18 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.around verbose: true do |example|
+    default_options = HTTP.default_options
+
+    HTTP.default_options = HTTP::Options.new(features: {
+      logging: {
+        logger: Logger.new($stdout)
+      }
+    })
+
+    example.run
+
+    HTTP.default_options = default_options
+  end
 end

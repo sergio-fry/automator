@@ -30,7 +30,7 @@ class Episode
   end
 
   def page
-    @internet.read(@address).body
+    @page ||= @internet.read(@address).body
   end
 
   def guid

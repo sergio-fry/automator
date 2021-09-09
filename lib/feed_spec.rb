@@ -24,12 +24,11 @@ RSpec.describe Feed do
       :episode,
       title: "Episode 1",
       description: "My very first episode.",
-      enclosure_length: 1,
-      enclosure_url: "https://fake.web/episode.mp3",
+      file_size: 1,
+      audio: "https://fake.web/episode.mp3",
       guid: "1"
     )
   end
 
   it { expect(feed.xml.size).to be > 0 }
-  it { puts feed.xml }
 end

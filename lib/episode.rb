@@ -13,6 +13,10 @@ class Episode
     ).to_s
   end
 
+  def description
+    title
+  end
+
   def image
     Nokogiri::HTML(page).css(".podcasts__share_link")[0].attr("data-image")
   end
@@ -21,7 +25,15 @@ class Episode
     Nokogiri::HTML(page).css(".mplayer-block-play audio")[0].attr("src")
   end
 
+  def file_size
+    1
+  end
+
   def page
     @internet.read(@address).body
+  end
+
+  def guid
+    @address
   end
 end

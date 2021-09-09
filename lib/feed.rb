@@ -31,7 +31,7 @@ class Feed
               xml.description do
                 xml.cdata episode.description
               end
-              xml.enclosure(length: episode.enclosure_length, type: "audio/mpeg", url: episode.enclosure_url)
+              xml.enclosure(length: episode.file_size, type: "audio/mpeg", url: episode.audio)
               xml.guid episode.guid
             end
           end

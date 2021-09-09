@@ -2,9 +2,10 @@ require "nokogiri"
 require "stripped_text"
 require "episode"
 require "joined_uri"
+require "internet"
 
 class Podcast
-  def initialize(address, internet)
+  def initialize(address, internet: Internet.new)
     @address = address
     @internet = internet
   end
@@ -22,12 +23,12 @@ class Podcast
           "https://www.deti.fm/",
           el.css("a")[0].attr("href")
         ).to_s,
-        @internet
+        internet: @internet
       )
     end
   end
 
   def page
-    @internet.read @address
+    @internet.read(@address).body
   end
 end

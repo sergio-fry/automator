@@ -7,7 +7,7 @@ class Feed
 
   def xml
     Nokogiri::XML::Builder.new(encoding: "UTF-8") do |xml|
-      xml.root(
+      xml.rss(
         "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",
         "version" => "2.0"
       ) do

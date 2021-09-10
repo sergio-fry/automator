@@ -21,7 +21,7 @@ class Feed
           xml["itunes"].type "serial"
           xml["itunes"].owner do
             xml["itunes"].name @podcast.owner_name
-            xml["itunes"].name @podcast.owner_email
+            xml["itunes"].email @podcast.owner_email
           end
           xml["itunes"].image @podcast.image
 

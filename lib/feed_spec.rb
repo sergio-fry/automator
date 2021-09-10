@@ -26,7 +26,8 @@ RSpec.describe Feed do
       description: "My very first episode.",
       file_size: 1,
       audio: "https://fake.web/episode.mp3",
-      guid: "1"
+      guid: "1",
+      image: "https://fake.web/image.png"
     )
   end
 

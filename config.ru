@@ -11,7 +11,7 @@ class App < Roda
     end
 
     r.on "podcasts" do
-      r.get "hrum" do
+      r.on "hrum" do
         response["Content-Type"] = "application/xml"
 
         Feed.new(

@@ -23,11 +23,14 @@ class Feed
             xml["itunes"].name @podcast.owner_name
             xml["itunes"].email @podcast.owner_email
           end
-          xml["itunes"].image @podcast.image
+          xml["itunes"].image(href: @podcast.image)
+          xml["itunes"].explicit "no"
+          xml["itunes"].category "Public Radio"
 
           @podcast.episodes.each do |episode|
             xml.item do
               xml["itunes"].title episode.title
+              xml["itunes"].image(href: episode.image)
               xml.description do
                 xml.cdata episode.description
               end

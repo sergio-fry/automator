@@ -20,12 +20,6 @@ class App < Roda
           )
         ).xml
       end
-
-      r.on "valid" do
-        response["Content-Type"] = "application/xml"
-
-        File.read("valid.xml")
-      end
     end
   end
 end

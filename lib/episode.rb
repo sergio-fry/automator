@@ -2,6 +2,8 @@ require "nokogiri"
 require "stripped_text"
 
 class Episode
+  attr_reader :address
+
   def initialize(address, internet:)
     @address = address
     @internet = internet
@@ -18,7 +20,7 @@ class Episode
   end
 
   def image
-    Nokogiri::HTML(page).css(".podcasts__share_link")[0].attr("data-image")
+    Nokogiri::HTML(page).css(".podcasts__share_link")[0].attr("data-image") + "?w=3000&h=3000"
   end
 
   def audio

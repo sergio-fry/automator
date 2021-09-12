@@ -19,7 +19,7 @@ class Podcast
   end
 
   def image
-    Nokogiri::HTML(page).css("[rel=\"image_src\"]")[0].attr("href")
+    Nokogiri::HTML(page).css("[rel=\"image_src\"]")[0].attr("href") + "?w=3000&h=3000"
   end
 
   def episodes

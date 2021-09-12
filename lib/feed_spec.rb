@@ -27,7 +27,8 @@ RSpec.describe Feed do
       file_size: 1,
       audio: "https://fake.web/episode.mp3",
       guid: "1",
-      image: "https://fake.web/image.png"
+      image: "https://fake.web/image.png",
+      address: "https://fake.web/podcast/episode/1"
     )
   end
 

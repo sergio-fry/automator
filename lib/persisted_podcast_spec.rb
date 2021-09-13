@@ -19,7 +19,7 @@ RSpec.describe PersistedPodcast do
   end
 
   let(:episodes) { [episode] }
-  let(:episode) { double(:episode) }
+  let(:episode) { double(:episode, guid: "episode-1") }
 
   let(:persisted_podcast) { PersistedPodcast.new(podcast, storage: MemoryStorage.new) }
   before { persisted_podcast.save }

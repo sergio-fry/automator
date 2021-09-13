@@ -6,6 +6,10 @@ class PersistedPodcast
     @storage = storage
   end
 
+  def guid
+    @podcast.guid
+  end
+
   def save
     @storage.save_podcast(
       @podcast.guid,
@@ -22,7 +26,11 @@ class PersistedPodcast
     )
 
     @podcast.episodes.each do |episode|
-      # PersistedEpisode.new(episode, storage: @storage).save
+      @storage.save_episode(
+        episode.guid,
+        guid,
+        {}
+      )
     end
   end
 

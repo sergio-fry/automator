@@ -5,8 +5,7 @@ class PersistedEpisode
   end
 
   def save
-    @storage.save(
-      :episodes,
+    @storage.save_episode(
       @episode.guid,
       {
       }

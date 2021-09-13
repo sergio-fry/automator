@@ -13,15 +13,16 @@ RSpec.describe PersistedPodcast do
       language: "en",
       owner_email: "petr@fake.web",
       owner_name: "Petr",
-      title: "Title"
+      title: "Title",
+      episodes: episodes
     )
   end
 
-  let(:storage) { MemoryStorage.new }
+  let(:episodes) { [episode] }
+  let(:episode) { double(:episode) }
 
-  before { storage.save_podcast podcast }
-
-  let(:persisted_podcast) { PersistedPodcast.new(podcast.guid, storage: storage) }
+  let(:persisted_podcast) { PersistedPodcast.new(podcast, storage: MemoryStorage.new) }
+  before { persisted_podcast.save }
 
   it { expect(persisted_podcast.title).to eq podcast.title }
   it { expect(persisted_podcast.image).to eq podcast.image }
@@ -32,5 +33,9 @@ RSpec.describe PersistedPodcast do
   it { expect(persisted_podcast.owner_name).to eq podcast.owner_name }
   it { expect(persisted_podcast.owner_email).to eq podcast.owner_email }
 
-  xit { expect(persisted_podcast.episodes).to eq podcast.episodes }
+  describe "persisted_episode" do
+    let(:persisted_episode) { persisted_podcast.episodes.first }
+    let(:episode) { double(:episode, title: "Episode") }
+    it { expect(persisted_episode.title).to eq episode.title }
+  end
 end

@@ -1,7 +1,24 @@
 class PersistedPodcast
-  def initialize(guid, storage:)
-    @guid = guid
+  def initialize(podcast, storage:)
+    @podcast = podcast
     @storage = storage
+  end
+
+  def save
+    @storage.save(
+      :podcasts,
+      @podcast.guid,
+      {
+        title: @podcast.title,
+        image: @podcast.image,
+        copyright: @podcast.copyright,
+        owner_email: @podcast.owner_email,
+        owner_name: @podcast.owner_name,
+        language: @podcast.language,
+        author: @podcast.author,
+        description: @podcast.description
+      }
+    )
   end
 
   def title
@@ -13,6 +30,7 @@ class PersistedPodcast
   end
 
   def episodes
+    data[:episodes]
   end
 
   def language
@@ -42,6 +60,6 @@ class PersistedPodcast
   private
 
   def data
-    @data ||= @storage.find_podcast(@guid)
+    @data ||= @storage.find(:podcasts, @podcast.guid)
   end
 end

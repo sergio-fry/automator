@@ -5,7 +5,7 @@ RSpec.describe PersistedPodcast do
   let(:podcast) do
     double(
       :podcast,
-      guid: 1,
+      guid: "podcast-1",
       author: "Ivan",
       copyright: "Copy(c)",
       description: "DESC",
@@ -35,7 +35,7 @@ RSpec.describe PersistedPodcast do
 
   describe "persisted_episode" do
     let(:persisted_episode) { persisted_podcast.episodes.first }
-    let(:episode) { double(:episode, title: "Episode") }
+    let(:episode) { double(:episode, title: "Episode", guid: "episode-1") }
     it { expect(persisted_episode.title).to eq episode.title }
   end
 end

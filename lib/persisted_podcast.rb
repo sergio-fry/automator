@@ -1,3 +1,5 @@
+require "persisted_episode"
+
 class PersistedPodcast
   def initialize(podcast, storage:)
     @podcast = podcast
@@ -5,8 +7,7 @@ class PersistedPodcast
   end
 
   def save
-    @storage.save(
-      :podcasts,
+    @storage.save_podcast(
       @podcast.guid,
       {
         title: @podcast.title,
@@ -19,6 +20,10 @@ class PersistedPodcast
         description: @podcast.description
       }
     )
+
+    @podcast.episodes.each do |episode|
+      # PersistedEpisode.new(episode, storage: @storage).save
+    end
   end
 
   def title
@@ -60,6 +65,6 @@ class PersistedPodcast
   private
 
   def data
-    @data ||= @storage.find(:podcasts, @podcast.guid)
+    @data ||= @storage.find_podcast(@podcast.guid)
   end
 end

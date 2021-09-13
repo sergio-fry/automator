@@ -1,12 +1,17 @@
 class MemoryStorage
   def initialize
     @data = {
-      podcasts: {}
+      podcasts: {},
+      episodes: {}
     }
   end
 
-  def save(collection, id, data)
-    @data[collection][id] = data
+  def save_podcast(guid, data)
+    @data[:podcasts][guid] = data
+  end
+
+  def find_podcast(guid)
+    @data[:podcasts][guid]
   end
 
   def find(collection, id)

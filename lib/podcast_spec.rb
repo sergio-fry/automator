@@ -2,7 +2,12 @@ require "fake_internet"
 require "podcast"
 
 RSpec.describe Podcast do
-  let(:podcast) { described_class.new(address, internet: FakeInternet.new) }
+  let(:podcast) do
+    described_class.new(
+      address,
+      internet: FakeInternet.new
+    )
+  end
   let(:address) { "https://www.deti.fm/program_child/uid/114343" }
 
   it { expect(podcast.title).to eq "ХРУМ, или Сказочный детектив" }

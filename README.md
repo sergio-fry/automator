@@ -15,7 +15,6 @@ Hand crafted tool to automate private tasks.
 
 ## Configuration
 
-ENV[DETIFM_PODCASTS] = "114343,114386"
 
 | Name                     |  Description             |  Default  |
 |--------------------------|--------------------------|-----------|

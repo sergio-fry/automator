@@ -10,31 +10,57 @@ require "persisted_podcast"
 class App < Roda
   logger = Logger.new($stdout)
   storage = MemoryStorage.new
+  podcasts_uids = ENV.fetch("DETIFM_PODCASTS", "114343,114386").split(",")
+
+  class UpdatedPodcast
+    def initialize(address, storage:, max_pages:)
+      @address = address
+      @storage = storage
+      @max_pages = max_pages
+    end
+
+    def update
+      persisted_podcast.save
+    end
+
+    def persisted_podcast
+      PersistedPodcast.new(
+        MultipagePodcast.new(
+          @address,
+          max_pages: @max_pages
+        ),
+        storage: @storage
+      )
+    end
+  end
 
   Thread.new do
+    podcasts_uids.each do |uid|
+      address = "https://www.deti.fm/program_child/uid/#{uid}"
+
+      logger.info "Updating podcast #{address} (FULL)"
+      UpdatedPodcast.new(
+        address,
+        storage: storage,
+        max_pages: ENV.fetch("DETIFM_PODCAST_MAX_PAGES", 10).to_i
+      ).update
+    rescue => ex
+      logger.error ex.message
+      logger.error ex.backtrace.join("\n")
+    end
+
     loop do
-      ENV.fetch("DETIFM_PODCASTS", "114343,114386")
-        .split(",")
-        .each do |uid|
+      sleep ENV.fetch("PODCASTS_REFRESH_INTERVAL", 3600).to_i
+
+      podcasts_uids.each do |uid|
         address = "https://www.deti.fm/program_child/uid/#{uid}"
 
-        podcast = PersistedPodcast.new(
-          MultipagePodcast.new(
-            address,
-            max_pages: ENV.fetch("DETIFM_PODCAST_MAX_PAGES", 10).to_i
-          ),
-          storage: storage
-        )
-
         logger.info "Updating podcast #{address}"
-
-        podcast.save
+        UpdatedPodcast.new(address, storage: storage, max_pages: 1).update
       rescue => ex
         logger.error ex.message
         logger.error ex.backtrace.join("\n")
       end
-
-      sleep ENV.fetch("PODCASTS_REFRESH_INTERVAL", 3600).to_i
     end
   end
 

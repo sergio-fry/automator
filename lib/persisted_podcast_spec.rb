@@ -6,6 +6,7 @@ RSpec.describe PersistedPodcast do
     double(
       :podcast,
       guid: "podcast-1",
+      address: "https://fake.web/podacst-1",
       author: "Ivan",
       copyright: "Copy(c)",
       description: "DESC",
@@ -19,7 +20,16 @@ RSpec.describe PersistedPodcast do
   end
 
   let(:episodes) { [episode] }
-  let(:episode) { double(:episode, guid: "episode-1", title: "Episode 1") }
+  let(:episode) do
+    double(
+      :episode,
+      guid: "episode-1",
+      title: "Episode 1",
+      image: "https://fake.web/image-1",
+      address: "https://fake.web/episode-1",
+      audio: "https://fake.web/episode-1.mp3"
+    )
+  end
 
   let(:persisted_podcast) { PersistedPodcast.new(podcast, storage: MemoryStorage.new) }
   before { persisted_podcast.save }
@@ -35,7 +45,6 @@ RSpec.describe PersistedPodcast do
 
   describe "persisted_episode" do
     let(:persisted_episode) { persisted_podcast.episodes.first }
-    let(:episode) { double(:episode, title: "Episode", guid: "episode-1") }
     it { expect(persisted_episode).to be_a PersistedEpisode }
     it { expect(persisted_episode.title).to eq episode.title }
   end

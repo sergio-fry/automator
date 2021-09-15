@@ -12,3 +12,13 @@ Hand crafted tool to automate private tasks.
 ## Features
 
   * Podcasts crawler
+
+## Configuration
+
+ENV[DETIFM_PODCASTS] = "114343,114386"
+
+| Name                     |  Description             |  Default  |
+|--------------------------|--------------------------|-----------|
+| DETIFM_PODCASTS          | Podcasts lists to update |  114343,114386|
+| DETIFM_PODCAST_MAX_PAGES | Max pages to fetch       |  10  |
+| PODCASTS_REFRESH_INTERVAL| Interval to check updates| 3600 |

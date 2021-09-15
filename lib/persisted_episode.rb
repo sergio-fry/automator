@@ -9,13 +9,36 @@ class PersistedEpisode
       @origin.guid,
       podcast_guid,
       {
-        title: @origin.title
+        title: @origin.title,
+        image: @origin.image,
+        audio: @origin.audio,
+        address: @origin.address
       }
     )
   end
 
   def title
     data[:title]
+  end
+
+  def image
+    data[:image]
+  end
+
+  def audio
+    data[:audio]
+  end
+
+  def address
+    data[:address]
+  end
+
+  def guid
+    @origin.guid
+  end
+
+  def description
+    data[:description]
   end
 
   private

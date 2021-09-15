@@ -2,31 +2,40 @@ require "episode"
 require "persisted_episode"
 
 class PersistedPodcast
-  def initialize(podcast, storage:)
-    @podcast = podcast
+  def initialize(origin, storage:)
+    @origin = origin
     @storage = storage
   end
 
   def guid
-    @podcast.guid
+    @origin.guid
+  end
+
+  def address
+    data[:address]
+  end
+
+  def exists?
+    !data.nil?
   end
 
   def save
     @storage.save_podcast(
-      @podcast.guid,
+      guid,
       {
-        title: @podcast.title,
-        image: @podcast.image,
-        copyright: @podcast.copyright,
-        owner_email: @podcast.owner_email,
-        owner_name: @podcast.owner_name,
-        language: @podcast.language,
-        author: @podcast.author,
-        description: @podcast.description
+        title: @origin.title,
+        image: @origin.image,
+        copyright: @origin.copyright,
+        owner_email: @origin.owner_email,
+        owner_name: @origin.owner_name,
+        language: @origin.language,
+        author: @origin.author,
+        description: @origin.description,
+        address: @origin.address
       }
     )
 
-    @podcast.episodes.each do |episode|
+    @origin.episodes.each do |episode|
       PersistedEpisode.new(episode, storage: @storage).save(podcast_guid: guid)
     end
   end
@@ -72,6 +81,6 @@ class PersistedPodcast
   private
 
   def data
-    @data ||= @storage.find_podcast(@podcast.guid)
+    @data ||= @storage.find_podcast(guid)
   end
 end

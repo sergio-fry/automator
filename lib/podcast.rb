@@ -12,6 +12,10 @@ class Podcast
     @internet = internet
   end
 
+  def guid
+    address
+  end
+
   def title
     StrippedText.new(
       Nokogiri::HTML(page).css(".podcast__description")[0].content

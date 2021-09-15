@@ -8,6 +8,10 @@ class MultipagePodcast
     @max_pages = max_pages
   end
 
+  def guid
+    @address
+  end
+
   def podcast(page = 1)
     Podcast.new(@address + "/page/#{page}")
   end

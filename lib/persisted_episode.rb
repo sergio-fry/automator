@@ -1,12 +1,13 @@
 class PersistedEpisode
-  def initialize(episode, storage:)
-    @episode = episode
+  def initialize(origin, storage:)
+    @origin = origin
     @storage = storage
   end
 
-  def save
+  def save(podcast_guid)
     @storage.save_episode(
-      @episode.guid,
+      @origin.guid,
+      podcast_guid,
       {
       }
     )

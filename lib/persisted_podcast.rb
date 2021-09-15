@@ -26,11 +26,7 @@ class PersistedPodcast
     )
 
     @podcast.episodes.each do |episode|
-      @storage.save_episode(
-        episode.guid,
-        guid,
-        {}
-      )
+      PersistedEpisode.new(episode, storage: @storage).save(podcast_guid: guid)
     end
   end
 
@@ -43,7 +39,9 @@ class PersistedPodcast
   end
 
   def episodes
-    data[:episodes]
+    @storage.find_podcast_episodes(guid).map do |guid|
+      PersistedEpisode.new(Episode.new(guid), storage: @storage)
+    end
   end
 
   def language

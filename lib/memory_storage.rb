@@ -18,7 +18,9 @@ class MemoryStorage
     @data[:episodes][guid] = data.merge(podcast_guid: podcast_guid)
   end
 
-  def find_episode(guid)
-    @data[:episodes][guid]
+  def find_podcast_episodes(podcast_guid)
+    @data[:episodes].values.find_all do |el|
+      el[:podcast_guid] == podcast_guid
+    end
   end
 end

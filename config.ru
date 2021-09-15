@@ -29,6 +29,9 @@ class App < Roda
         logger.info "Updating podcast #{address}"
 
         podcast.save
+      rescue => ex
+        logger.error ex.message
+        logger.error ex.backtrace.join("\n")
       end
 
       sleep ENV.fetch("PODCASTS_REFRESH_INTERVAL", 3600).to_i

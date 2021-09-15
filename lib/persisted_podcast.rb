@@ -1,3 +1,4 @@
+require "episode"
 require "persisted_episode"
 
 class PersistedPodcast
@@ -39,8 +40,8 @@ class PersistedPodcast
   end
 
   def episodes
-    @storage.find_podcast_episodes(guid).map do |guid|
-      PersistedEpisode.new(Episode.new(guid), storage: @storage)
+    @storage.find_podcast_episodes(guid).map do |data|
+      PersistedEpisode.new(Episode.new(data[:guid]), storage: @storage)
     end
   end
 

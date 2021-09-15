@@ -4,11 +4,12 @@ class PersistedEpisode
     @storage = storage
   end
 
-  def save(podcast_guid)
+  def save(podcast_guid:)
     @storage.save_episode(
       @origin.guid,
       podcast_guid,
       {
+        title: @origin.title
       }
     )
   end
@@ -20,6 +21,6 @@ class PersistedEpisode
   private
 
   def data
-    @data ||= @storage.find(:episodes, @episode.guid)
+    @data ||= @storage.find_episode(@origin.guid)
   end
 end

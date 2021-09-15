@@ -1,10 +1,11 @@
 require "nokogiri"
 require "stripped_text"
+require "internet"
 
 class Episode
   attr_reader :address
 
-  def initialize(address, internet:)
+  def initialize(address, internet: Internet.new)
     @address = address
     @internet = internet
   end

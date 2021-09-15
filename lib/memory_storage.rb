@@ -15,7 +15,11 @@ class MemoryStorage
   end
 
   def save_episode(guid, podcast_guid, data)
-    @data[:episodes][guid] = data.merge(podcast_guid: podcast_guid)
+    @data[:episodes][guid] = data.merge(guid: guid, podcast_guid: podcast_guid)
+  end
+
+  def find_episode(guid)
+    @data[:episodes][guid]
   end
 
   def find_podcast_episodes(podcast_guid)

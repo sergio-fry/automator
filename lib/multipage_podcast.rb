@@ -13,7 +13,7 @@ class MultipagePodcast
   end
 
   def podcast(page = 1)
-    Podcast.new(@address + "/page/#{page}")
+    DetifmPodcast.new(@address + "/page/#{page}")
   end
 
   def title

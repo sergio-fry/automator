@@ -4,7 +4,7 @@ require "episode"
 require "joined_uri"
 require "internet"
 
-class Podcast
+class DetifmPodcast
   attr_reader :address
 
   def initialize(address, internet: Internet.new)

@@ -1,10 +1,10 @@
 require "feed"
-require "podcast"
+require "detifm_podcast"
 
 RSpec.describe "Get Podcast", development: true do
   it "get new episodes" do
     Feed.new(
-      Podcast.new(
+      DetifmPodcast.new(
         "https://www.deti.fm/program_child/uid/114343"
       )
     ).xml

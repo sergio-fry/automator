@@ -21,3 +21,7 @@ Hand crafted tool to automate private tasks.
 | DETIFM_PODCASTS          | Podcasts lists to update |  114343,114386|
 | DETIFM_PODCAST_MAX_PAGES | Max pages to fetch       |  10  |
 | PODCASTS_REFRESH_INTERVAL| Interval to check updates| 3600 |
+
+## TODO
+
+  * convert podfm.ru to podcast

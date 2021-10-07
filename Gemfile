@@ -6,12 +6,14 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem "http"
 gem "nokogiri"
-gem "roda"
 gem "puma"
+gem "roda"
+gem "veils"
 
 group :development do
   gem "standard"
   gem "rake"
+  gem "solargraph"
 end
 
 group :test do

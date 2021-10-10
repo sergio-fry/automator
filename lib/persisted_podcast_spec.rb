@@ -45,7 +45,10 @@ RSpec.describe PersistedPodcast do
 
   describe "persisted_episode" do
     let(:persisted_episode) { persisted_podcast.episodes.first }
-    it { expect(persisted_episode).to be_a PersistedEpisode }
     it { expect(persisted_episode.title).to eq episode.title }
+    it { expect(persisted_episode.guid).to eq episode.guid }
+    it { expect(persisted_episode.image).to eq episode.image }
+    it { expect(persisted_episode.address).to eq episode.address }
+    it { expect(persisted_episode.audio).to eq episode.audio }
   end
 end

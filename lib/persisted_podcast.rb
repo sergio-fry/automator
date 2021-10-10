@@ -1,10 +1,13 @@
+require "veil"
+
 require "detifm_episode"
-require "persisted_episode"
+require "episode"
 
 class PersistedPodcast
-  def initialize(origin, storage:)
+  def initialize(origin, storage:, internet:)
     @origin = origin
     @storage = storage
+    @internet = internet
   end
 
   def guid
@@ -36,7 +39,17 @@ class PersistedPodcast
     )
 
     @origin.episodes.each do |episode|
-      PersistedEpisode.new(episode, storage: @storage).save(podcast_guid: guid)
+      @storage.save_episode(
+        episode.guid,
+        guid,
+        {
+          title: episode.title,
+          description: episode.description,
+          image: episode.image,
+          audio: episode.audio,
+          address: episode.address
+        }
+      )
     end
   end
 
@@ -50,8 +63,19 @@ class PersistedPodcast
 
   def episodes
     @storage.find_podcast_episodes(guid).map do |data|
-      PersistedEpisode.new(DetifmEpisode.new(data[:guid]), storage: @storage)
+      Veil.new(
+        episode_klass(data[:address]).new(data[:address], internet: @internet),
+        title: data[:title],
+        description: data[:description],
+        image: data[:image],
+        audio: data[:audio],
+        address: data[:address]
+      )
     end
+  end
+
+  def episode_klass(address)
+    DetifmEpisode
   end
 
   def language

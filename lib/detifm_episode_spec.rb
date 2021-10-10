@@ -1,4 +1,4 @@
-require "episode"
+require "detifm_episode"
 require "fake_internet"
 
 RSpec.describe DetifmEpisode do

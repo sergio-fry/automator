@@ -1,6 +1,6 @@
 require "nokogiri"
 require "stripped_text"
-require "episode"
+require "detifm_episode"
 require "joined_uri"
 require "internet"
 

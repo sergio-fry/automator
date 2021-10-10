@@ -1,4 +1,4 @@
-require "episode"
+require "detifm_episode"
 require "persisted_episode"
 
 class PersistedPodcast

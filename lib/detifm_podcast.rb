@@ -28,7 +28,7 @@ class DetifmPodcast
 
   def episodes
     Nokogiri::HTML(page).css(".podcasts__item-anonce").map do |el|
-      Episode.new(
+      DetifmEpisode.new(
         JoinedURI.new(
           "https://www.deti.fm/",
           el.css("a")[0].attr("href")

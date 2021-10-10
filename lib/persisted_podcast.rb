@@ -50,7 +50,7 @@ class PersistedPodcast
 
   def episodes
     @storage.find_podcast_episodes(guid).map do |data|
-      PersistedEpisode.new(Episode.new(data[:guid]), storage: @storage)
+      PersistedEpisode.new(DetifmEpisode.new(data[:guid]), storage: @storage)
     end
   end
 

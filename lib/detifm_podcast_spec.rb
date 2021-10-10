@@ -1,11 +1,11 @@
-require "fake_internet"
+require "fake/internet"
 require "detifm_podcast"
 
 RSpec.describe DetifmPodcast do
   let(:podcast) do
     described_class.new(
       address,
-      internet: FakeInternet.new
+      internet: Fake::Internet.new
     )
   end
   let(:address) { "https://www.deti.fm/program_child/uid/114343" }

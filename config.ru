@@ -65,8 +65,7 @@ class App < Roda
 
     r.on "podcasts" do
       r.on "detifm", Integer do |uid|
-        address = "https://www.deti.fm/program_child/uid/#{uid}"
-        podcast = podcasts.find { |p| p.address == address}
+        podcast = podcasts.find { |p| p.address == "https://www.deti.fm/program_child/uid/#{uid}" }
 
         if !podcast.nil?
           response["Content-Type"] = "application/xml"

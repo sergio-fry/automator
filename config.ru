@@ -65,17 +65,13 @@ class App < Roda
 
     r.on "podcasts" do
       r.on "detifm", Integer do |uid|
-        persisted_podcast = PersistedPodcast.new(
-          Podcast.new(
-            "https://www.deti.fm/program_child/uid/#{uid}"
-          ),
-          storage: storage
-        )
+        address = "https://www.deti.fm/program_child/uid/#{uid}"
+        podcast = podcasts.find { |p| p.address == address}
 
-        if persisted_podcast.exists?
+        if !podcast.nil?
           response["Content-Type"] = "application/xml"
           Feed.new(
-            persisted_podcast
+            podcast
           ).xml
         else
           response.status = 404

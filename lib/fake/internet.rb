@@ -26,6 +26,10 @@ module Fake
         HTTPResponse.new(fixture("hrum/episodes/zolushka.html"), 200)
       when "https://www.deti.fm/podcast__player/album/114343/uid/777933"
         HTTPResponse.new(fixture("hrum/episodes/gusi.html"), 200)
+      when "https://podfm.ru/podcasts/klub-veselyh-akademikov/"
+        HTTPResponse.new(fixture("podfm/akademiki/podcast.html"), 200)
+      when %r{https://podfm.ru/episodes/.+}
+        HTTPResponse.new(fixture("podfm/akademiki/etnografiya.html"), 200)
       else
         raise "Fake address '#{address}' not found" if @strict
 

@@ -4,6 +4,7 @@ require "logger"
 require "roda"
 require "feed"
 require "detifm_podcast"
+require "podfm_podcast"
 require "memory_storage"
 require "persisted_podcasts"
 
@@ -11,7 +12,6 @@ class App < Roda
   logger = Logger.new($stdout)
   storage = MemoryStorage.new
   internet = Internet.new
-  podcasts_uids = ENV.fetch("DETIFM_PODCASTS", "114343,114386").split(",")
 
   podcasts = PersistedPodcasts.new(
     storage: storage,
@@ -19,9 +19,9 @@ class App < Roda
   )
 
   Thread.new do
-    podcasts_uids.each do |uid|
-      address = "https://www.deti.fm/program_child/uid/#{uid}"
-
+    ENV.fetch("DETIFM_PODCASTS", "114343,114386").split(",")
+      .map { |uid| "https://www.deti.fm/program_child/uid/#{uid}" }
+      .each do |address|
       logger.info "Updating podcast #{address} (FULL)"
 
       podcasts.add(
@@ -31,29 +31,42 @@ class App < Roda
           internet: internet
         )
       )
-
     rescue => ex
       logger.error ex.message
       logger.error ex.backtrace.join("\n")
     end
 
+    ENV.fetch("PODFM_PODCASTS", "klub-veselyh-akademikov").split(",").map { |slug| "https://podfm.ru/podcasts/#{slug}/" }.each do |address|
+      logger.info "Updating podcast #{address} (FULL)"
+      podcasts.add PodfmPodcast.new(address, internet: internet)
+    end
+    logger.info "Loaded"
+
     loop do
       sleep ENV.fetch("PODCASTS_REFRESH_INTERVAL", 3600).to_i
 
-      podcasts_uids.each do |uid|
-        address = "https://www.deti.fm/program_child/uid/#{uid}"
+      podcasts.each do |podcast|
+        logger.info "Updating podcast #{podcast.address}"
 
-        logger.info "Updating podcast #{address}"
-        podcasts.add(
-          DetifmPodcast.new(
-            address,
-            internet: internet
-          )
-        )
+        podcasts.add podcast.refreshed
       rescue => ex
         logger.error ex.message
         logger.error ex.backtrace.join("\n")
       end
+    end
+  end
+
+  def podcast_feed(response, podcasts, address)
+    podcast = podcasts.find { |p| p.address == address }
+
+    if !podcast.nil?
+      response["Content-Type"] = "application/xml"
+      Feed.new(
+        podcast
+      ).xml
+    else
+      response.status = 404
+      "Not found"
     end
   end
 
@@ -64,17 +77,10 @@ class App < Roda
 
     r.on "podcasts" do
       r.on "detifm", Integer do |uid|
-        podcast = podcasts.find { |p| p.address == "https://www.deti.fm/program_child/uid/#{uid}" }
-
-        if !podcast.nil?
-          response["Content-Type"] = "application/xml"
-          Feed.new(
-            podcast
-          ).xml
-        else
-          response.status = 404
-          "Not found"
-        end
+        podcast_feed(response, podcasts, "https://www.deti.fm/program_child/uid/#{uid}")
+      end
+      r.on "podfm", String do |slug|
+        podcast_feed(response, podcasts, "https://podfm.ru/podcasts/#{slug}/")
       end
     end
   end

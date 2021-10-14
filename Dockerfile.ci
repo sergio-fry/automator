@@ -19,4 +19,4 @@ RUN bundle exec rspec lib
 RUN bundle exec standardrb
 
 
-RUN ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+RUN ./cc-test-reporter after-build

@@ -1,5 +1,7 @@
 FROM ruby:3.0.2
 
+ARG TRAVIS_TEST_RESULT
+
 WORKDIR /app
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter

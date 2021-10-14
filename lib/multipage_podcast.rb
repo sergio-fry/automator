@@ -1,11 +1,12 @@
-require "podcast"
+require "detifm_podcast"
 
 class MultipagePodcast
   attr_reader :address
 
-  def initialize(address, max_pages: 3)
+  def initialize(address, internet:, max_pages: 3)
     @address = address
     @max_pages = max_pages
+    @internet = internet
   end
 
   def guid
@@ -13,7 +14,7 @@ class MultipagePodcast
   end
 
   def podcast(page = 1)
-    DetifmPodcast.new(@address + "/page/#{page}")
+    DetifmPodcast.new(@address + "/page/#{page}", internet: @internet)
   end
 
   def title

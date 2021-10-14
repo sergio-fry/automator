@@ -5,45 +5,33 @@ require "roda"
 require "feed"
 require "multipage_podcast"
 require "memory_storage"
-require "persisted_podcast"
+require "persisted_podcasts"
 
 class App < Roda
   logger = Logger.new($stdout)
   storage = MemoryStorage.new
+  internet = Internet.new
   podcasts_uids = ENV.fetch("DETIFM_PODCASTS", "114343,114386").split(",")
 
-  class UpdatedPodcast
-    def initialize(address, storage:, max_pages:)
-      @address = address
-      @storage = storage
-      @max_pages = max_pages
-    end
-
-    def update
-      persisted_podcast.save
-    end
-
-    def persisted_podcast
-      PersistedPodcast.new(
-        MultipagePodcast.new(
-          @address,
-          max_pages: @max_pages
-        ),
-        storage: @storage
-      )
-    end
-  end
+  podcasts = PersistedPodcasts.new(
+    storage: storage,
+    internet: internet
+  )
 
   Thread.new do
     podcasts_uids.each do |uid|
       address = "https://www.deti.fm/program_child/uid/#{uid}"
 
       logger.info "Updating podcast #{address} (FULL)"
-      UpdatedPodcast.new(
-        address,
-        storage: storage,
-        max_pages: ENV.fetch("DETIFM_PODCAST_MAX_PAGES", 10).to_i
-      ).update
+
+      podcasts.add(
+        MultipagePodcast.new(
+          address,
+          max_pages: ENV.fetch("DETIFM_PODCAST_MAX_PAGES", 10).to_i,
+          internet: internet
+        )
+      )
+
     rescue => ex
       logger.error ex.message
       logger.error ex.backtrace.join("\n")
@@ -56,7 +44,13 @@ class App < Roda
         address = "https://www.deti.fm/program_child/uid/#{uid}"
 
         logger.info "Updating podcast #{address}"
-        UpdatedPodcast.new(address, storage: storage, max_pages: 1).update
+        podcasts.add(
+          MultipagePodcast.new(
+            address,
+            max_pages: 1,
+            internet: internet
+          )
+        )
       rescue => ex
         logger.error ex.message
         logger.error ex.backtrace.join("\n")
@@ -71,17 +65,12 @@ class App < Roda
 
     r.on "podcasts" do
       r.on "detifm", Integer do |uid|
-        persisted_podcast = PersistedPodcast.new(
-          Podcast.new(
-            "https://www.deti.fm/program_child/uid/#{uid}"
-          ),
-          storage: storage
-        )
+        podcast = podcasts.find { |p| p.address == "https://www.deti.fm/program_child/uid/#{uid}" }
 
-        if persisted_podcast.exists?
+        if !podcast.nil?
           response["Content-Type"] = "application/xml"
           Feed.new(
-            persisted_podcast
+            podcast
           ).xml
         else
           response.status = 404

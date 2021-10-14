@@ -1,0 +1,12 @@
+FROM automator
+
+ARG CC_TEST_REPORTER_ID
+
+RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+RUN chmod +x ./cc-test-reporter
+RUN ./cc-test-reporter before-build
+
+RUN bundle exec rspec lib
+RUN bundle exec standardrb
+
+RUN ./cc-test-reporter after-build

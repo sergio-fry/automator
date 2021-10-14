@@ -6,6 +6,10 @@ class MemoryStorage
     }
   end
 
+  def podcasts
+    @data[:podcasts].values
+  end
+
   def save_podcast(guid, data)
     @data[:podcasts][guid] = data
   end

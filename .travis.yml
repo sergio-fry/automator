@@ -4,5 +4,5 @@ services:
   - docker
 
 script:
-  - docker build -f Dockerfile.ci .
+  - docker build -f Dockerfile.ci --build-arg TRAVIS_TEST_RESULT="$TRAVIS_TEST_RESULT" .
 

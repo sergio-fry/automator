@@ -1,7 +1,7 @@
 require "fake/internet"
-require "detifm_podcast"
+require "detifm_podcast_page"
 
-RSpec.describe DetifmPodcast do
+RSpec.describe DetifmPodcastPage do
   let(:podcast) do
     described_class.new(
       address,

@@ -1,68 +1,57 @@
-require "nokogiri"
-require "stripped_text"
-require "detifm_episode"
-require "joined_uri"
-require "internet"
+require "detifm_podcast_page"
 
 class DetifmPodcast
   attr_reader :address
 
-  def initialize(address, internet: Internet.new)
+  def initialize(address, internet:, max_pages: 3)
     @address = address
+    @max_pages = max_pages
     @internet = internet
   end
 
   def guid
-    address
+    @address
+  end
+
+  def podcast(page = 1)
+    DetifmPodcastPage.new(@address + "/page/#{page}", internet: @internet)
   end
 
   def title
-    StrippedText.new(
-      Nokogiri::HTML(page).css(".podcast__description")[0].content
-    ).to_s
+    podcast.title
   end
 
   def image
-    Nokogiri::HTML(page).css("[rel=\"image_src\"]")[0].attr("href") + "?w=3000&h=3000"
+    podcast.image
   end
 
   def episodes
-    Nokogiri::HTML(page).css(".podcasts__item-anonce").map do |el|
-      DetifmEpisode.new(
-        JoinedURI.new(
-          "https://www.deti.fm/",
-          el.css("a")[0].attr("href")
-        ).to_s,
-        internet: @internet
-      )
-    end
-  end
-
-  def page
-    @page ||= @internet.read(@address).body
+    (1..@max_pages).map do |page|
+      podcast(page).episodes
+    end.flatten
   end
 
   def language
-    "ru"
+    podcast.language
   end
 
   def copyright
-    author
+    podcast.copyright
   end
 
   def author
-    "ООО «Аура-Радио»"
+    podcast.author
   end
 
   def description
-    title
+    podcast.description
   end
 
   def owner_name
-    author
+    podcast.owner_name
   end
 
   def owner_email
-    "radio@deti.fm"
+    podcast.owner_email
   end
 end

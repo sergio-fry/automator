@@ -1,7 +1,6 @@
 require "feed"
 require "memory_storage"
 require "persisted_podcasts"
-require "multipage_podcast"
 require "detifm_podcast"
 
 require "fake/internet"
@@ -14,7 +13,7 @@ RSpec.describe "Get Podcast", development: true do
     podcasts = PersistedPodcasts.new(storage: storage, internet: internet)
 
     podcasts.add(
-      MultipagePodcast.new(
+      DetifmPodcast.new(
         "https://www.deti.fm/program_child/uid/114343",
         max_pages: 1,
         internet: internet

@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "lib"))
 require "logger"
 require "roda"
 require "feed"
-require "multipage_podcast"
+require "detifm_podcast"
 require "memory_storage"
 require "persisted_podcasts"
 
@@ -25,7 +25,7 @@ class App < Roda
       logger.info "Updating podcast #{address} (FULL)"
 
       podcasts.add(
-        MultipagePodcast.new(
+        DetifmPodcast.new(
           address,
           max_pages: ENV.fetch("DETIFM_PODCAST_MAX_PAGES", 10).to_i,
           internet: internet
@@ -45,7 +45,7 @@ class App < Roda
 
         logger.info "Updating podcast #{address}"
         podcasts.add(
-          MultipagePodcast.new(
+          DetifmPodcast.new(
             address,
             max_pages: 1,
             internet: internet

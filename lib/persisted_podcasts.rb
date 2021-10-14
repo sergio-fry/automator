@@ -1,5 +1,6 @@
 require "veil"
 require "persisted_podcast_episodes"
+require "detifm_podcast"
 
 class PersistedPodcasts
   include Enumerable

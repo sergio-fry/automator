@@ -1,6 +1,7 @@
 FROM ruby:3.0.2
 
 ARG TRAVIS_TEST_RESULT
+ARG CC_TEST_REPORTER_ID
 
 WORKDIR /app
 
@@ -16,5 +17,6 @@ ADD . /app/
 
 RUN bundle exec rspec lib
 RUN bundle exec standardrb
+
 
 RUN ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

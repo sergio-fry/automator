@@ -4,5 +4,4 @@ services:
   - docker
 
 script:
-  - docker build -f Dockerfile.ci --build-arg TRAVIS_TEST_RESULT=$TRAVIS_TEST_RESULT --build-arg CC_TEST_REPORTER_ID=$CC_TEST_REPORTER_ID .
-
+  - make ci

@@ -9,6 +9,10 @@ class DetifmPodcast
     @internet = internet
   end
 
+  def refreshed
+    self
+  end
+
   def guid
     @address
   end

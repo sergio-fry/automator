@@ -42,7 +42,10 @@ class Feed
             xml.item do
               xml.title episode.title
               xml.link episode.address
+
+              # TODO: use real episode time
               xml.pubDate Time.now.iso8601
+
               xml.description do
                 xml.cdata episode.description
               end

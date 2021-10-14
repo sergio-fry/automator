@@ -3,7 +3,7 @@ require "detifm_podcast_page"
 class DetifmPodcast
   attr_reader :address
 
-  def initialize(address, internet:, max_pages: 3)
+  def initialize(address, internet:, max_pages: 1)
     @address = address
     @max_pages = max_pages
     @internet = internet

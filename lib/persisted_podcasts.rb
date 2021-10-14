@@ -12,7 +12,7 @@ class PersistedPodcasts
 
   def each
     @storage.podcasts.map do |p_data|
-      podcast = DetifmPodcast.new(p_data[:address], internet: @internet)
+      podcast = Object.const_get(p_data[:class]).new(p_data[:address], internet: @internet)
 
       yield Veil.new(
         podcast,
@@ -29,6 +29,7 @@ class PersistedPodcasts
     @storage.save_podcast(podcast.address, {
       address: podcast.address,
       author: podcast.author,
+      class: podcast.class.to_s,
       copyright: podcast.copyright,
       description: podcast.description,
       image: podcast.image,

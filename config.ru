@@ -47,7 +47,6 @@ class App < Roda
         podcasts.add(
           DetifmPodcast.new(
             address,
-            max_pages: 1,
             internet: internet
           )
         )

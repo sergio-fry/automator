@@ -12,7 +12,7 @@ class PersistedPodcastEpisodes
   def each
     @storage.find_podcast_episodes(@podcast.address).map do |e_data|
       yield Veil.new(
-        DetifmEpisode.new(e_data[:address], internet: @internet),
+        Object.const_get(e_data[:class]).new(e_data[:address], internet: @internet),
         {
           address: e_data[:address],
           audio: e_data[:audio],
@@ -32,6 +32,7 @@ class PersistedPodcastEpisodes
       {
         address: episode.address,
         audio: episode.audio,
+        class: episode.class.to_s,
         description: episode.description,
         guid: episode.guid,
         image: episode.image,

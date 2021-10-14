@@ -2,8 +2,9 @@ require "http_response"
 
 module Fake
   class Internet
-    def initialize
+    def initialize(strict: true)
       @enabled = true
+      @strict = strict
     end
 
     def read(address)
@@ -26,7 +27,8 @@ module Fake
       when "https://www.deti.fm/podcast__player/album/114343/uid/777933"
         HTTPResponse.new(fixture("hrum/episodes/gusi.html"), 200)
       else
-        puts "Fake address '#{address}' not found"
+        raise "Fake address '#{address}' not found" if @strict
+
         HTTPResponse.new("", 404)
       end
     end

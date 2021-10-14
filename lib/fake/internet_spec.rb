@@ -2,7 +2,7 @@ require "fake/internet"
 
 module Fake
   RSpec.describe Internet do
-    subject(:internet) { described_class.new }
+    subject(:internet) { described_class.new(strict: false) }
 
     it "get page content" do
       resp = internet.read("https://www.deti.fm/program_child/uid/114343")
